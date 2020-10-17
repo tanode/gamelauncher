@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Collections;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
 using System.Windows;
+using System.Windows.Controls;
 
-namespace GameLauncher
+namespace UOPhoenixLauncher
 {
+    
     enum LauncherStatus
     {
         ready,
@@ -25,7 +28,6 @@ namespace GameLauncher
         private string versionFile;
         private string gameZip;
         private string gameExe;
-
         private LauncherStatus _status;
         internal LauncherStatus Status
         {
@@ -55,12 +57,16 @@ namespace GameLauncher
 
         public MainWindow()
         {
-            InitializeComponent();
-
+            
+           // InitializeComponent();
             rootPath = Directory.GetCurrentDirectory();
-            versionFile = Path.Combine(rootPath, "PhoenixVersion.txt");
-            gameZip = Path.Combine(rootPath, "ProvaPatcher.zip");
+            versionFile = Path.Combine(rootPath, "VersionUOP.txt");
+            gameZip = Path.Combine(rootPath, "GameFiles.zip");
             gameExe = Path.Combine(rootPath, "client.exe");
+           // PlayButton.Visibility = Visibility.Visible;
+            //bar.Visibility = Visibility.Hidden;
+            //bartxt.Visibility = Visibility.Hidden;
+            //AGGINGI POSSIBILITA' SCELTA DIRECTORY
         }
 
         private void CheckForUpdates()
@@ -68,11 +74,11 @@ namespace GameLauncher
             if (File.Exists(versionFile))
             {
                 Version localVersion = new Version(File.ReadAllText(versionFile));
-                VersionText.Text = localVersion.ToString();
+               // VersionText.Text = localVersion.ToString();
 
                 try
                 {
-                    WebClient webClient = new WebClient();
+                    WebClient webClient = new WebClient();                    
                     Version onlineVersion = new Version(webClient.DownloadString("https://rscharter.com/tano/PhoenixVersion.txt"));
 
                     if (onlineVersion.IsDifferentThan(localVersion))
@@ -110,7 +116,10 @@ namespace GameLauncher
                     Status = LauncherStatus.downloadingGame;
                     _onlineVersion = new Version(webClient.DownloadString("https://rscharter.com/tano/PhoenixVersion.txt"));
                 }
-
+                PlayButton.Visibility = Visibility.Hidden;
+                bar.Visibility = Visibility.Visible;
+                bartxt.Visibility = Visibility.Visible;
+                webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressCallback);
                 webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(DownloadGameCompletedCallback);
                 webClient.DownloadFileAsync(new Uri("https://rscharter.com/tano/ProvaPatcher.zip"), gameZip, _onlineVersion);
             }
@@ -120,18 +129,25 @@ namespace GameLauncher
                 MessageBox.Show($"Error installing game files: {ex}");
             }
         }
-
+        private void DownloadProgressCallback(object sender, DownloadProgressChangedEventArgs e)
+        {
+            this.bar.Value = e.ProgressPercentage;
+            this.bartxt.Text = Convert.ToString(e.ProgressPercentage,10);
+        }
         private void DownloadGameCompletedCallback(object sender, AsyncCompletedEventArgs e)
         {
             try
             {
+                PlayButton.Visibility = Visibility.Visible;
+                bar.Visibility = Visibility.Hidden;
+                bartxt.Visibility = Visibility.Hidden;
                 string onlineVersion = ((Version)e.UserState).ToString();
                 ZipFile.ExtractToDirectory(gameZip, rootPath, true);
                 File.Delete(gameZip);
 
                 File.WriteAllText(versionFile, onlineVersion);
 
-                VersionText.Text = onlineVersion;
+                //VersionText.Text = onlineVersion;
                 Status = LauncherStatus.ready;
             }
             catch (Exception ex)
@@ -143,16 +159,17 @@ namespace GameLauncher
 
         private void Window_ContentRendered(object sender, EventArgs e)
         {
-            CheckForUpdates();
+            CheckForUpdates();  
+           
         }
-
-        private void PlayButton_Click(object sender, RoutedEventArgs e)
-        {
+        
+        private void PlayButton_Click(object sender, RoutedEventArgs e)       // MODIFICARE PER AVVIO ASSISTANT
+        {   
             if (File.Exists(gameExe) && Status == LauncherStatus.ready)
             {
-                ProcessStartInfo startInfo = new ProcessStartInfo(gameExe);
-                startInfo.WorkingDirectory = rootPath;
-                Process.Start(startInfo);
+               // ProcessStartInfo startInfo = new ProcessStartInfo(gameExe);
+               // startInfo.WorkingDirectory = rootPath;
+               // Process.Start(startInfo);
 
                 Close();
             }
@@ -161,6 +178,47 @@ namespace GameLauncher
                 CheckForUpdates();
             }
         }
+
+        private void WebsiteButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Process.Start("https://www.uophoenix.com");
+            }
+            catch (Exception ex)
+            {
+                Status = LauncherStatus.failed;
+                MessageBox.Show($"Error Opening Website: {ex}");
+            }
+        }
+
+        private void DiscordButton_Click(object sender, EventArgs e)
+        { try
+            {
+                
+            Process.Start("https://discord.gg/XNCRRU");
+            }
+            catch (Exception ex)
+            {
+                Status = LauncherStatus.failed;
+                MessageBox.Show($"Error Opening Discord: {ex}");
+            }
+        }
+        private void BackgroundMover_MouseDown(object sender, EventArgs e)
+        {
+
+        }
+
+        private void MinimizeBT_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void CloseBT_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
     }
 
     struct Version

@@ -1,16 +1,115 @@
-﻿<Window x:Class="GameLauncher.MainWindow"
+﻿<Window x:Class="UOPhoenixLauncher.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GameLauncher"
+        xmlns:local="clr-namespace:UOPhoenixLauncher"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen"
-        ContentRendered="Window_ContentRendered"
-        Title="Phoenix Launcher" Height="576" Width="1080" ResizeMode="CanResize" Icon="/images/Icon.ico" SizeToContent="WidthAndHeight">
-    <Grid Margin="0,15,0,-15">
-        <Image Stretch="Fill" Source="/LauncherBackground.png" HorizontalAlignment="Stretch" Width="1080" Height="576"/>
-        <TextBlock Name="VersionText" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="20" Foreground="White" Margin="0, 0, 5, 0"/>
-        <Button Name="PlayButton" Content="Check For Updates" Click="PlayButton_Click" Height="81" FontSize="48" FontWeight="Bold" Margin="0,450,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" MinWidth="150" Background="{x:Null}" Padding="10,1,10,1" Width="588" Visibility="Visible" RenderTransformOrigin="0.469,1.441" BorderBrush="{x:Null}" Foreground="#FFF57A04" FontFamily="Perpetua Titling MT"/>
+        Title="MainWindow" Height="576" Width="1080" Foreground="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Top" AllowsTransparency="True" WindowStyle="None" SnapsToDevicePixels="True" Background="{x:Null}">
+
+    <Window.Resources>
+        <Style x:Key="MyButton" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" BorderThickness="0" BorderBrush="Black" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"  />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.9" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Height="576" VerticalAlignment="Top" HorizontalAlignment="Left" Width="1080">
+        <Grid.RowDefinitions>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+        </Grid.ColumnDefinitions>
+
+        <Rectangle Height="576" HorizontalAlignment="Left" x:Name="BackgroundMover" VerticalAlignment="Top" Width="1080" MouseDown="BackgroundMover_MouseDown">
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="background_launcher.png"/>
+            </Rectangle.Fill>
+        </Rectangle>
+
+        <Button Content="Website" Margin="10,34,860,515" Width="210" Height="27" 
+                BorderBrush="{x:Null}" FontSize="20" Style="{StaticResource MyButton}" Foreground="#FF1B252A" FontFamily="LifeCraft">
+            <Button.Background>
+                <ImageBrush ImageSource="bottone_small.png"/>
+            </Button.Background>
+
+        </Button>
+
+        <Button Content="Discord" Margin="225,34,645,515" Width="210" Height="27" 
+            BorderBrush="{x:Null}" FontSize="20" Style="{StaticResource MyButton}" Foreground="#FF1B252A" FontFamily="LifeCraft">
+            <Button.Background>
+                <ImageBrush ImageSource="bottone_small.png"/>
+            </Button.Background>
+
+        </Button>
+        <Button Content="Store" Margin="860,34,10,515" Width="210" Height="27" 
+            BorderBrush="{x:Null}" FontSize="20" Style="{StaticResource MyButton}" Foreground="#FF1B252A" FontFamily="LifeCraft">
+            <Button.Background>
+                <ImageBrush ImageSource="bottone_small.png"/>
+            </Button.Background>
+
+        </Button>
+        <Button Content="Twitch" Margin="647,34,223,515" Width="210" Height="27" 
+            BorderBrush="{x:Null}" FontSize="20" Style="{StaticResource MyButton}" Foreground="#FF1B252A" FontFamily="LifeCraft">
+            <Button.Background>
+                <ImageBrush ImageSource="bottone_small.png"/>
+            </Button.Background>
+
+        </Button>
+
+        <Image Source="center_image.png" Margin="240,51,240,206" />
+
+        <Image Source="downloadbar.png" Margin="38,370,38,28" />
+        
+        <Button x:Name="CloseBT" Content="" Margin="1059,10,5,552" 
+            BorderBrush="{x:Null}" Click="CloseBT_Click" Style="{StaticResource MyButton}" Foreground="#FF1B252A" >
+            <Button.Background>
+                <ImageBrush ImageSource="close.png">
+                    <ImageBrush.RelativeTransform>
+                        <TransformGroup>
+                            <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                            <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                            <RotateTransform CenterY="0.5" CenterX="0.5"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </ImageBrush.RelativeTransform>
+                </ImageBrush>
+            </Button.Background>
+
+        </Button>
+        
+        
+        <Button x:Name="MinimizeBT" Content="" Margin="1041,10,23,552" 
+            BorderBrush="{x:Null}" Style="{StaticResource MyButton}" Foreground="#FF1B252A" Click="MinimizeBT_Click" >
+            <Button.Background>
+                <ImageBrush ImageSource="minimaze_bt.png">
+                    <ImageBrush.RelativeTransform>
+                        <TransformGroup>
+                            <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                            <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                            <RotateTransform CenterY="0.5" CenterX="0.5"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </ImageBrush.RelativeTransform>
+                </ImageBrush>
+            </Button.Background>
+        </Button>
+        <ProgressBar Name="bar" Minimum="0" Maximum="100" Value="0" Visibility="Hidden" Margin="215,434,215,58"></ProgressBar>
+        <TextBlock Name="bartxt" Text="{Binding ElementName=bar, Path=Value, StringFormat={}{0:0}%}" Visibility="Hidden" HorizontalAlignment="Center"  Margin="0,440,0,66" Width="160" FontSize="24"></TextBlock>
+        <Button Name="PlayButton" Content="Check For Updates" Click="PlayButton_Click" Height="81" FontSize="48" FontWeight="Bold" Margin="0,436,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" MinWidth="150" Background="{x:Null}" Padding="10,1,10,1" Width="588" Visibility="Visible" BorderBrush="{x:Null}" Foreground="#FFF57A04" FontFamily="Perpetua Titling MT"/>
+
     </Grid>
 </Window>

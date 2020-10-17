@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tanode\\Desktop\\csharp-game-launcher-master\\csharp-game-launcher-master\\GameLauncher\\GameLauncher.csproj",
+      "projectUniqueName": "C:\\Users\\tanode\\Desktop\\phoenix\\GameLauncher\\GameLauncher.csproj",
       "projectName": "GameLauncher",
-      "projectPath": "C:\\Users\\tanode\\Desktop\\csharp-game-launcher-master\\csharp-game-launcher-master\\GameLauncher\\GameLauncher.csproj",
+      "projectPath": "C:\\Users\\tanode\\Desktop\\phoenix\\GameLauncher\\GameLauncher.csproj",
       "packagesPath": "C:\\Users\\tanode\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tanode\\Desktop\\csharp-game-launcher-master\\csharp-game-launcher-master\\GameLauncher\\obj\\",
+      "outputPath": "C:\\Users\\tanode\\Desktop\\phoenix\\GameLauncher\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\tanode\\AppData\\Roaming\\NuGet\\NuGet.Config",
